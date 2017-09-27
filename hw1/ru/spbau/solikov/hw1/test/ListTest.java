@@ -1,33 +1,81 @@
 package ru.spbau.solikov.hw1.test;
 
+import org.junit.Before;
+import org.junit.Test;
 import ru.spbau.solikov.hw1.src.List;
 
-/**
- * Class for testing all the List functions
- */
+import static org.junit.Assert.*;
 
 public class ListTest {
-    public static void main(String[] args) {
-        List l = new List();
 
+    private List l;
+
+    @Before
+    public void setUp() {
+        l = new List();
+    }
+
+    @Test
+    public void testGetHeadOfEmptyList() {
+        assertEquals(null, l.getHead());
+    }
+
+    @Test
+    public void testInsert() {
+        l.insert("SPbAU", "Java");
+        assertEquals("Java", l.getHead().getData());
+    }
+
+    @Test
+    public void testManyInserts() {
         for (int i = 0; i < 10; i++) {
             l.insert(String.valueOf(i), String.valueOf(i));
         }
 
-        for (List.Node node = l.getHead(); node != null; node = node.getNext()) {
-            System.out.println(node.getKey());
+        int number = 0;
+        for (List.Node n = l.getHead(); n != null; n = n.getNext()) {
+            assertEquals(Integer.toString(number), n.getData());
+            number++;
         }
+    }
 
-        System.out.println();
+    @Test
+    public void testFindNonexistingElement() {
+        assertEquals(null, l.find("Something"));
+    }
 
-        System.out.println(l.find("5") + " - found key '5'.");
+    @Test
+    public void testFindExistingElement() {
+        l.insert("SPbAU", "Java");
+        assertEquals("Java", l.find("SPbAU"));
+    }
+
+    @Test
+    public void testDeleteElementFromEmptyList() {
+        l.delete("SomeKey");
+        assertEquals(null, l.getHead());
+    }
+
+    @Test
+    public void testDeleteNonexistingElement() {
+        l.insert("1", "2");
         l.delete("5");
-        System.out.println(l.delete("5") + " - deleted key '5'.");
+        assertNotEquals(null, l.getHead());
+    }
 
-        System.out.println();
+    @Test
+    public void testDeleteExistingElement() {
+        l.insert("SPbAU", "Java");
+        l.delete("SPbAU");
+        assertEquals(null, l.getHead());
+    }
 
+    @Test
+    public void testClear() {
+        for (int i = 0; i < 10; i++) {
+            l.insert(String.valueOf(i), String.valueOf(i));
+        }
         l.clear();
-        System.out.print(l.getHead() == null);
-        System.out.println(" - cleared the list.");
+        assertEquals(null, l.getHead());
     }
 }
