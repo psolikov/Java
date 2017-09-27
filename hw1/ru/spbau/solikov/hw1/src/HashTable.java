@@ -1,12 +1,12 @@
 package ru.spbau.solikov.hw1.src;
 
 /**
- *  Implementation of hash table structure using separate chaining
+ * Implementation of hash table structure using separate chaining
  */
 public class HashTable {
 
     /**
-     *  Number used in hash function
+     * Number used in hash function
      */
     private static final int DEFAULT_HASH_PRIME_NUMBER = 31;
 
