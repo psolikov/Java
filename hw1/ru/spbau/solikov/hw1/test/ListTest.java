@@ -22,11 +22,11 @@ public class ListTest {
     }
 
     /**
-     * Tests if 'getHead' on empty list returns null
+     * Tests if 'isEmpty' on empty list returns true
      */
     @Test
-    public void testGetHeadOfEmptyList() {
-        assertEquals(null, l.getHead());
+    public void testIsEmptyOfEmptyList() {
+        assertEquals(true, l.isEmpty());
     }
 
     /**
@@ -35,7 +35,7 @@ public class ListTest {
     @Test
     public void testInsert() {
         l.insert("SPbAU", "Java");
-        assertEquals("Java", l.getHead().getData());
+        assertEquals("Java", l.getHeadsData());
     }
 
     /**
@@ -48,9 +48,10 @@ public class ListTest {
         }
 
         int number = 0;
-        for (List.Node n = l.getHead(); n != null; n = n.getNext()) {
-            assertEquals(Integer.toString(number), n.getData());
+        while (!l.isEmpty()) {
+            assertEquals(Integer.toString(number), l.getHeadsData());
             number++;
+            l.delete(l.getHeadsKey());
         }
     }
 
@@ -89,7 +90,7 @@ public class ListTest {
     @Test
     public void testDeleteElementFromEmptyList() {
         l.delete("SomeKey");
-        assertEquals(null, l.getHead());
+        assertEquals(true, l.isEmpty());
     }
 
     /**
@@ -99,7 +100,7 @@ public class ListTest {
     public void testDeleteNonexistingElement() {
         l.insert("1", "2");
         l.delete("5");
-        assertNotEquals(null, l.getHead());
+        assertNotEquals(true, l.isEmpty());
     }
 
     /**
@@ -109,7 +110,7 @@ public class ListTest {
     public void testDeleteExistingElement() {
         l.insert("SPbAU", "Java");
         l.delete("SPbAU");
-        assertEquals(null, l.getHead());
+        assertEquals(true, l.isEmpty());
     }
 
     /**
@@ -121,6 +122,6 @@ public class ListTest {
             l.insert(String.valueOf(i), String.valueOf(i));
         }
         l.clear();
-        assertEquals(null, l.getHead());
+        assertEquals(true, l.isEmpty());
     }
 }

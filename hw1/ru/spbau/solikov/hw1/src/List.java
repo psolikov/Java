@@ -8,10 +8,12 @@ public class List {
     /**
      * Class that stores keys and data and has link for next Node
      */
-    public class Node {
+    private class Node {
 
         private Node next;
+
         private String key;
+
         private String data;
 
         public Node(Node n, String k, String d) {
@@ -19,21 +21,10 @@ public class List {
             key = k;
             data = d;
         }
-
-        public Node getNext() {
-            return next;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getData() {
-            return data;
-        }
     }
 
     private Node head;
+
     private Node tail;
 
     public Node getHead() {
@@ -47,14 +38,21 @@ public class List {
      * @param data
      */
     public void insert(String key, String data) {
-        if (head != null){
+        if (head != null) {
             tail.next = new Node(null, key, data);
             tail = tail.next;
-        }
-
-        else{
+        } else {
             tail = head = new Node(null, key, data);
         }
+    }
+
+    /**
+     * Checks if the list does not contain any elements
+     *
+     * @return boolean - true if the list is empty
+     */
+    public boolean isEmpty() {
+        return head == null;
     }
 
     /**
@@ -65,14 +63,22 @@ public class List {
      */
     public String find(String key) {
         Node current = head;
-        while (current != null){
-            if (current.getKey().equals(key)){
-                return current.getData();
+        while (current != null) {
+            if (current.key.equals(key)) {
+                return current.data;
             }
-            current = current.getNext();
+            current = current.next;
         }
 
         return null;
+    }
+
+    public String getHeadsKey() {
+        return head.key;
+    }
+
+    public String getHeadsData() {
+        return head.data;
     }
 
     /**
@@ -82,19 +88,19 @@ public class List {
      * @return data that was deleted
      */
     public String delete(String key) {
-        if (head == null){
+        if (head == null) {
             return null;
         }
 
-        if (head.getKey().equals(key)){
+        if (head.key.equals(key)) {
             String deleted = head.data;
             head = head.next;
             return deleted;
         }
 
         Node current = head;
-        while (current.next != null){
-            if (current.next.getKey().equals(key)){
+        while (current.next != null) {
+            if (current.next.key.equals(key)) {
                 String deleted = current.next.data;
                 current.next = current.next.next;
                 return deleted;
@@ -108,7 +114,7 @@ public class List {
     /**
      * Clears the List
      */
-    public void clear(){
+    public void clear() {
         head = null;
         tail = null;
     }

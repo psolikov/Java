@@ -14,10 +14,6 @@ public class ListTest {
             l.insert(String.valueOf(i), String.valueOf(i));
         }
 
-        for (List.Node node = l.getHead(); node != null; node = node.getNext()) {
-            System.out.println(node.getKey());
-        }
-
         System.out.println();
 
         System.out.println(l.find("5") + " - found key '5'.");
