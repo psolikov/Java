@@ -1,24 +1,23 @@
 package ru.spbau.solikov.hw1.src;
 
 /**
- *  Implementation of hash table structure using separate chaining
+ * Implementation of hash table structure using separate chaining
  */
 public class HashTable {
 
     /**
-     *  Number used in hash function
+     * Number used in hash function
      */
     private static final int DEFAULT_HASH_PRIME_NUMBER = 31;
 
     private List[] table;
-    private int capacity;
+    private int capacity = 2;
     private int size;
 
     /**
-     * Creates a HashTable of capacity 2
+     * Creates a HashTable of default capacity
      */
     public HashTable() {
-        capacity = 2;
         table = new List[2];
         size = 0;
     }
@@ -45,7 +44,6 @@ public class HashTable {
         size = 0;
     }
 
-
     /**
      * Hash function for obtaining a code from key
      *
@@ -60,7 +58,6 @@ public class HashTable {
         return hash;
     }
 
-
     /**
      * Returns data stored by key or null if not found
      *
@@ -69,10 +66,11 @@ public class HashTable {
      */
     public String get(String key) {
         int hash = getHash(key);
-        if (table[hash] == null) return null;
+        if (table[hash] == null){
+            return null;
+        }
         return table[hash].find(key);
     }
-
 
     /**
      * Increases the capacity of HashTable by 2 times
@@ -84,15 +82,14 @@ public class HashTable {
 
         for (List list : oldTable) {
             if (list != null) {
-                List.Node node = list.getHead();
-                while (node != null) {
-                    String key = node.getKey();
+                while (!list.isEmpty()) {
+                    String key = list.getHeadsKey();
                     int hash = getHash(key);
                     if (table[hash] == null) {
                         table[hash] = new List();
                     }
-                    table[hash].insert(key, node.getData());
-                    node = node.getNext();
+                    table[hash].insert(key, list.getHeadsData());
+                    list.delete(key);
                 }
             }
         }
@@ -126,7 +123,6 @@ public class HashTable {
         return deleted;
     }
 
-
     /**
      * Allows to remove data stored by key
      *
@@ -148,7 +144,6 @@ public class HashTable {
 
         return null;
     }
-
 
     /**
      * Checks whether HashTable contains some data by passed key

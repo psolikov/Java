@@ -1,4 +1,4 @@
-package ru.spbau.solikov.hw1.test;
+package ru.spbau.solikov.hw1.src.primitive.test;
 
 import ru.spbau.solikov.hw1.src.List;
 
@@ -12,10 +12,6 @@ public class ListTest {
 
         for (int i = 0; i < 10; i++) {
             l.insert(String.valueOf(i), String.valueOf(i));
-        }
-
-        for (List.Node node = l.getHead(); node != null; node = node.getNext()) {
-            System.out.println(node.getKey());
         }
 
         System.out.println();

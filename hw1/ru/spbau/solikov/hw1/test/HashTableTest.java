@@ -1,4 +1,4 @@
-package ru.spbau.solikov.hw1.test;
+package ru.spbau.solikov.hw1.src.primitive.test;
 
 import ru.spbau.solikov.hw1.src.HashTable;
 
