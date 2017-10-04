@@ -15,7 +15,7 @@ import java.nio.file.*;
  */
 public class Main {
 
-    Trie trie;
+    private Trie trie;
 
     @Before
     public void setUp() {
@@ -227,7 +227,7 @@ public class Main {
         try {
             Path path = FileSystems.getDefault().getPath("test.trie");
             Files.delete(path);
-        } catch (NoSuchFileException x) {
+        } catch (NoSuchFileException ignored) {
         } catch (DirectoryNotEmptyException x) {
             System.err.format("%s not empty%n", "test.trie");
         } catch (IOException x) {
