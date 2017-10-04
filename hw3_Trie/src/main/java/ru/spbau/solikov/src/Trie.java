@@ -14,8 +14,8 @@ public class Trie implements Serializable {
     /**
      * Function to obtain the letter in String from integer
      *
-     * @param i
-     * @return string
+     * @param i number of letter
+     * @return  string
      */
     private static String getCharForNumber(int i) {
         return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
@@ -51,8 +51,8 @@ public class Trie implements Serializable {
      * False otherwise.
      * Supports size.
      *
-     * @param element
-     * @return true if element already in trie, false otherwise
+     * @param element string to be added
+     * @return        true if element already in trie, false otherwise
      */
     public boolean add(String element) {
 
@@ -72,7 +72,7 @@ public class Trie implements Serializable {
             }
         }
 
-        if (current.isTerminal == true) {
+        if (current.isTerminal) {
             return false;
         }
 
@@ -94,8 +94,8 @@ public class Trie implements Serializable {
     /**
      * Checks if element is in trie.
      *
-     * @param element
-     * @return true if element is in trie, false otherwise
+     * @param element to be checked
+     * @return        true if element is in trie, false otherwise
      */
     public boolean contains(String element) {
 
@@ -111,15 +111,15 @@ public class Trie implements Serializable {
             }
         }
 
-        return current.isTerminal == true;
+        return current.isTerminal;
     }
 
     /**
      * Removes element from trie. If that element is not prefix of any other element in trie,
      * then deletes all nodes till last terminal vertex from up to down.
      *
-     * @param element
-     * @return true if element was in trie, false otherwise
+     * @param element to be removed
+     * @return        true if element was in trie, false otherwise
      */
     public boolean remove(String element) {
 
@@ -132,7 +132,7 @@ public class Trie implements Serializable {
             char c = element.charAt(i);
             index = alphabet.get(Character.toString(c));
 
-            if (i != element.length() && current.isTerminal == true) {
+            if (current.isTerminal) {
                 lastElement = current;
                 indexLastElement = i;
             }
@@ -144,7 +144,7 @@ public class Trie implements Serializable {
             }
         }
 
-        if (current.isTerminal == true) {
+        if (current.isTerminal) {
             for (int i = 0; i < ALPHABET_SIZE; i++) {
                 if (current.nodes[i] != null) {
                     current.isTerminal = false;
@@ -197,8 +197,8 @@ public class Trie implements Serializable {
      * Returns number of strings started with prefix stored in trie.
      * Is equal to number of terminal vertices in subtrie of last prefix letter's node.
      *
-     * @param prefix
-     * @return size
+     * @param prefix to be checked for size
+     * @return       size
      */
     public int howManyStartsWithPrefix(String prefix) {
 
@@ -220,8 +220,8 @@ public class Trie implements Serializable {
     /**
      * Takes output stream and serializes class Trie to that stream with standard Java method
      *
-     * @param out
-     * @throws IOException
+     * @param out          stream in what it will write Trie
+     * @throws IOException exceptions that could appear while writing
      */
     public void serialize(OutputStream out) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(out);
@@ -233,9 +233,9 @@ public class Trie implements Serializable {
     /**
      * Takes input stream and reads class from that stream with standard Java method
      *
-     * @param in
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @param in                      stream from what it will read information about Trie
+     * @throws IOException            exceptions that could appear while reading
+     * @throws ClassNotFoundException exception if there's no such file
      */
     public void deserialize(InputStream in) throws IOException, ClassNotFoundException {
         ObjectInputStream oin = new ObjectInputStream(in);
