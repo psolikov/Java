@@ -3,6 +3,10 @@ package ru.spbau.solikov.hw2.src.test;
 import org.junit.Test;
 import ru.spbau.solikov.hw2.src.Spiral;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.Writer;
+
 import static org.junit.Assert.*;
 
 /**
@@ -16,6 +20,28 @@ public class SpiralTest {
             {7, 8, 9}
     };
     private Spiral s = new Spiral(3, elements);
+    String correctOrderForS = "5 6 3 2 4 4 7 8 9 ";
+
+    private int[][] elements2 = {
+    };
+    private Spiral s2 = new Spiral(0, elements2);
+    String correctOrderForS2 = "";
+
+    private int[][] elements3 = {
+            {10}
+    };
+    private Spiral s3 = new Spiral(1, elements3);
+    String correctOrderForS3 = "10 ";
+
+    private int[][] elements5 = {
+            {1, 2, 3, 4, 5},
+            {6, 7, 8, 9, 10},
+            {11, 12, 13, 14, 15},
+            {16, 17, 18, 19, 20},
+            {21, 22, 23, 24, 25}
+    };
+    private Spiral s5 = new Spiral(5, elements5);
+
 
     /**
      * Tests if matrix is equal to transposed input matrix
@@ -30,26 +56,29 @@ public class SpiralTest {
         }
     }
 
-    private int[][] elements2 = {
-    };
-    private Spiral s2 = new Spiral(0, elements2);
-
-    /**
-     * Checks if printSpiral does not crash on empty Spiral
-     */
     @Test
-    public void testPrintEmptySpiralToOutputStream() {
-        s2.printSpiral(System.out);
+    public void testPrintThreeElementSpiralToOutputStream() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        s.printSpiral(byteArrayOutputStream);
+        String output = byteArrayOutputStream.toString();
+        assertEquals(output, correctOrderForS);
     }
 
-    private int[][] elements3 = {
-            {10}
-    };
-    private Spiral s3 = new Spiral(1, elements3);
+    @Test
+    public void testPrintNoElementSpiralToOutputStream() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        s2.printSpiral(byteArrayOutputStream);
+        String output = byteArrayOutputStream.toString();
+        assertEquals(output, correctOrderForS2);
+    }
+
 
     @Test
     public void testPrintOneElementSpiralToOutputStream() {
-        s3.printSpiral(System.out);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        s3.printSpiral(byteArrayOutputStream);
+        String output = byteArrayOutputStream.toString();
+        assertEquals(output, correctOrderForS3);
     }
 
     /**
@@ -81,36 +110,28 @@ public class SpiralTest {
         assertEquals(10, prev);
     }
 
-    private int[][] elements4 = {
-            {1, 2, 3, 4},
-            {5, 6, 7, 8},
-            {9, 10, 11, 12},
-            {13, 14, 15, 16}
-    };
-    private Spiral s4 = new Spiral(4, elements4);
-
     @Test
     public void testIfSortDoesNotChangeSortedMatrix() {
-        s4.sort();
-        int[][] matrix = s4.getMatrix();
+        s5.sort();
+        int[][] matrix = s5.getMatrix();
         int prev = matrix[0][0];
         for (int i = 1; i < matrix.length; i++) {
             assertEquals(true, prev <= matrix[i][0]);
         }
     }
 
-    private int[][] elements5 = {
+    private int[][] elementsNegative5 = {
             {-1, -2, -3, -4},
             {-5, -6, -7, -8},
             {-9, -10, -11, -12},
             {-13, -14, -15, -16}
     };
-    private Spiral s5 = new Spiral(4, elements5);
+    private Spiral sNegative5 = new Spiral(4, elementsNegative5);
 
     @Test
     public void testSortOnNegativeNumbersMatrix() {
-        s5.sort();
-        int[][] matrix = s5.getMatrix();
+        sNegative5.sort();
+        int[][] matrix = sNegative5.getMatrix();
         int prev = matrix[0][0];
         for (int i = 1; i < matrix.length; i++) {
             assertEquals(true, prev <= matrix[i][0]);
