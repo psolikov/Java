@@ -10,17 +10,9 @@ public class HashTable {
      */
     private static final int DEFAULT_HASH_PRIME_NUMBER = 31;
 
-    private List[] table;
     private int capacity = 2;
-    private int size;
-
-    /**
-     * Creates a HashTable of default capacity
-     */
-    public HashTable() {
-        table = new List[2];
-        size = 0;
-    }
+    private int size = 0;
+    private List[] table = new List[capacity];
 
     /**
      * Returns number of keys

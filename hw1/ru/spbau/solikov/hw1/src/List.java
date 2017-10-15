@@ -11,9 +11,7 @@ public class List {
     private class Node {
 
         private Node next;
-
         private String key;
-
         private String data;
 
         public Node(Node n, String k, String d) {
@@ -24,7 +22,6 @@ public class List {
     }
 
     private Node head;
-
     private Node tail;
 
     public Node getHead() {
