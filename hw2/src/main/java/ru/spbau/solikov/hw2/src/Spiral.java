@@ -1,5 +1,7 @@
 package ru.spbau.solikov.hw2.src;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -46,14 +48,13 @@ public class Spiral {
      * Sorting the matrix by first element in column using custom comparator
      */
     public void sort() {
-        Arrays.sort(matrix, new Comparator<int[]>() {
-            @Override
-            public int compare(final int[] first, final int[] second) {
+        if (size != 0) {
+            Arrays.sort(matrix, (first, second) -> {
                 Integer f = first[0];
                 Integer s = second[0];
                 return f.compareTo(s);
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -79,34 +80,42 @@ public class Spiral {
      * External 'for' loop implements the layer of matrix
      * 4 internal 'for' loops implement round way on sides of current rectangle
      */
-    public void printSpiral() {
+    public void printSpiral(OutputStream os) {
         final int c = size / 2;
-        System.out.print(matrix[c][c] + " ");
-        if (size > 1) {
-            int x = c;
-            int y = c;
-            int layer = 0;
-            for (int side = 2; side < size - layer; side++) {
-                y++;
-                System.out.print(matrix[y][x] + " ");
-                for (int i = 1; i < side + layer; i++) {
-                    System.out.print(matrix[y][x - i] + " ");
-                }
-                x -= side - 1 + layer;
-                for (int i = 1; i < side + layer + 1; i++) {
-                    System.out.print(matrix[y - i][x] + " ");
-                }
-                y -= side + layer;
-                for (int i = 1; i < side + layer + 1; i++) {
-                    System.out.print(matrix[y][x + i] + " ");
-                }
-                x += side + layer;
-                for (int i = 1; i < side + layer + 1; i++) {
-                    System.out.print(matrix[y + i][x] + " ");
-                }
-                y += side + layer;
-                layer++;
+        try {
+            PrintWriter pw = new PrintWriter(os, true);
+            if (size > 0) {
+                pw.println(matrix[c][c] + " ");
             }
+            if (size > 1) {
+                int x = c;
+                int y = c;
+                int layer = 0;
+                for (int side = 2; side < size - layer; side++) {
+                    y++;
+                    pw.println(matrix[y][x] + " ");
+                    for (int i = 1; i < side + layer; i++) {
+                        pw.println(matrix[y][x - i] + " ");
+                    }
+                    x -= side - 1 + layer;
+                    for (int i = 1; i < side + layer + 1; i++) {
+                        pw.println(matrix[y - i][x] + " ");
+                    }
+                    y -= side + layer;
+                    for (int i = 1; i < side + layer + 1; i++) {
+                        pw.println(matrix[y][x + i] + " ");
+                    }
+                    x += side + layer;
+                    for (int i = 1; i < side + layer + 1; i++) {
+                        pw.println(matrix[y + i][x] + " ");
+                    }
+                    y += side + layer;
+                    layer++;
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Exception occurred while writing to output stream : " + e.toString());
         }
     }
 }
