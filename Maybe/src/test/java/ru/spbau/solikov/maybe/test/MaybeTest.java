@@ -1,14 +1,12 @@
-import org.junit.FixMethodOrder;
+package ru.spbau.solikov.maybe.test;
+
 import org.junit.Test;
-import org.junit.runner.Request;
 import ru.spbau.solikov.maybe.src.Maybe;
 import ru.spbau.solikov.maybe.src.MaybeException;
 
 import javax.swing.text.rtf.RTFEditorKit;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
