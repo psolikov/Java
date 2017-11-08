@@ -10,15 +10,16 @@ import java.util.Map;
 public class Trie implements Serializable {
 
     private static final int ALPHABET_SIZE = 26;
+    private static final int NUMBER_OF_LETTER_A = 64;
 
     /**
      * Function to obtain the letter in String from integer
      *
      * @param i number of letter
-     * @return  string
+     * @return string
      */
     private static String getCharForNumber(int i) {
-        return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
+        return i > 0 && i < ALPHABET_SIZE + 1 ? String.valueOf((char) (i + NUMBER_OF_LETTER_A)) : null;
     }
 
     private static final Map<String, Integer> alphabet;
@@ -39,20 +40,16 @@ public class Trie implements Serializable {
         private TrieNode nodes[] = new TrieNode[ALPHABET_SIZE];
     }
 
-    private TrieNode root;
-
-    public Trie() {
-        root = new TrieNode();
-    }
+    private TrieNode root = new TrieNode();
 
     /**
      * Function that adds string from letters of alphabet to the trie.
-     * Returns true if the trie didn't have that string before.
      * False otherwise.
      * Supports size.
+     * O(n) time.
      *
      * @param element string to be added
-     * @return        true if element already in trie, false otherwise
+     * @return true if element already in trie, false otherwise
      */
     public boolean add(String element) {
 
@@ -93,9 +90,10 @@ public class Trie implements Serializable {
 
     /**
      * Checks if element is in trie.
+     * O(n) time, where n is maximum length of stored strings.
      *
      * @param element to be checked
-     * @return        true if element is in trie, false otherwise
+     * @return true if element is in trie, false otherwise
      */
     public boolean contains(String element) {
 
@@ -117,12 +115,12 @@ public class Trie implements Serializable {
     /**
      * Removes element from trie. If that element is not prefix of any other element in trie,
      * then deletes all nodes till last terminal vertex from up to down.
+     * O(n) time, where n is maximum length of stored strings.
      *
      * @param element to be removed
-     * @return        true if element was in trie, false otherwise
+     * @return true if element was in trie, false otherwise
      */
     public boolean remove(String element) {
-
         TrieNode current = root;
         TrieNode lastElement = root;
         int indexLastElement = 0;
@@ -149,12 +147,7 @@ public class Trie implements Serializable {
                 if (current.nodes[i] != null) {
                     current.isTerminal = false;
                     current = root;
-                    for (int j = 0; j <= indexLastElement; j++) {
-                        char c = element.charAt(j);
-                        int indexCurrent = alphabet.get(Character.toString(c));
-                        current.size--;
-                        current = current.nodes[indexCurrent];
-                    }
+                    advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
                     return true;
                 }
             }
@@ -162,15 +155,20 @@ public class Trie implements Serializable {
             removePath(lastElement, element.substring(indexLastElement));
 
             current = root;
-            for (int i = 0; i <= indexLastElement; i++) {
-                char c = element.charAt(i);
-                int indexCurrent = alphabet.get(Character.toString(c));
-                current.size--;
-                current = current.nodes[indexCurrent];
-            }
+            advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
             return true;
         }
         return false;
+    }
+
+    private void advanceOnGivenSizeAndReduceSize(String element,
+                                                     int indexLastElement, TrieNode current) {
+        for (int j = 0; j <= indexLastElement; j++) {
+            char c = element.charAt(j);
+            int indexCurrent = alphabet.get(Character.toString(c));
+            current.size--;
+            current = current.nodes[indexCurrent];
+        }
     }
 
     private void removePath(TrieNode node, String element) {
@@ -185,20 +183,21 @@ public class Trie implements Serializable {
     }
 
     /**
-     * Returns number of strings stored in trie. Is equal to number of terminal vertices.
+     * Function for obtaining the Trie's size.
+     * O(1) time.
      *
-     * @return size
+     * @return number of strings stored in trie (is equal to number of terminal vertices)
      */
     public int size() {
         return (root != null) ? root.size : 0;
     }
 
     /**
-     * Returns number of strings started with prefix stored in trie.
-     * Is equal to number of terminal vertices in subtrie of last prefix letter's node.
+     * Output is equal to number of terminal vertices in subtrie of last prefix letter's node.
+     * O(n) time, where n is length of prefix.
      *
      * @param prefix to be checked for size
-     * @return       size
+     * @return number of strings started with prefix stored in trie
      */
     public int howManyStartsWithPrefix(String prefix) {
 
@@ -220,7 +219,7 @@ public class Trie implements Serializable {
     /**
      * Takes output stream and serializes class Trie to that stream with standard Java method
      *
-     * @param out          stream in what it will write Trie
+     * @param out stream in what it will write Trie
      * @throws IOException exceptions that could appear while writing
      */
     public void serialize(OutputStream out) throws IOException {
@@ -233,7 +232,7 @@ public class Trie implements Serializable {
     /**
      * Takes input stream and reads class from that stream with standard Java method
      *
-     * @param in                      stream from what it will read information about Trie
+     * @param in stream from what it will read information about Trie
      * @throws IOException            exceptions that could appear while reading
      * @throws ClassNotFoundException exception if there's no such file
      */
