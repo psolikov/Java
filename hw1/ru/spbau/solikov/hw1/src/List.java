@@ -31,8 +31,8 @@ public class List {
     /**
      * Adds a pair of key and data in List
      *
-     * @param key
-     * @param data
+     * @param key string that will be used as key
+     * @param data string that will be used as data
      */
     public void insert(String key, String data) {
         if (head != null) {
@@ -55,7 +55,7 @@ public class List {
     /**
      * Searches for data by key in List
      *
-     * @param key
+     * @param key string that will be used as key
      * @return data or null if not found
      */
     public String find(String key) {
@@ -81,7 +81,7 @@ public class List {
     /**
      * Deletes a data stored by key in List
      *
-     * @param key
+     * @param key string that will be used as key
      * @return data that was deleted
      */
     public String delete(String key) {

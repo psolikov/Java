@@ -39,7 +39,7 @@ public class HashTable {
     /**
      * Hash function for obtaining a code from key
      *
-     * @param key
+     * @param key string to obtain a code from
      * @return hash code
      */
     private int getHash(String key) {
@@ -53,7 +53,7 @@ public class HashTable {
     /**
      * Returns data stored by key or null if not found
      *
-     * @param key
+     * @param key string to obtain a code from
      * @return data or null if not found
      */
     public String get(String key) {
@@ -90,8 +90,8 @@ public class HashTable {
     /**
      * Allows to add the pair of key and data into HashTable, if there's not enough space calls increase()
      *
-     * @param key
-     * @param data
+     * @param key string to obtain a code from
+     * @param data string to be put into HashTable
      * @return data that was stored before by the same key or null if this space was empty
      */
     public String put(String key, String data) {
@@ -118,7 +118,7 @@ public class HashTable {
     /**
      * Allows to remove data stored by key
      *
-     * @param key
+     * @param key string to obtain a code from
      * @return data stored by key
      */
     public String remove(String key) {
@@ -140,7 +140,7 @@ public class HashTable {
     /**
      * Checks whether HashTable contains some data by passed key
      *
-     * @param key
+     * @param key string to obtain a code from
      * @return data or null if the HashTable doesn't contain key
      */
     public boolean contains(String key) {
