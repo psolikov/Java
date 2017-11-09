@@ -1,9 +1,12 @@
 package ru.spbau.solikov.maybe.src;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Function;
 
 /**
- * Generic implementation of class with single variable of type T and some methods that operate with it.
+ * Generic implementation of class with single variable of type T
+ * and some methods that operate with it.
  *
  * @param <T> the type of value
  */
@@ -11,10 +14,10 @@ public class Maybe<T> {
 
     private T element = null;
 
-    public Maybe() {
+    private Maybe() {
     }
 
-    public Maybe(T t) {
+    private Maybe(@NotNull T t) {
         element = t;
     }
 
@@ -22,13 +25,13 @@ public class Maybe<T> {
      * Method for taking the Maybe's instance.
      *
      * @return value that is stored of type T
-     * @throws MaybeException could be thrown if it's empty
+     * @throws MaybeIsEmptyException could be thrown if it's empty
      */
-    public T get() throws MaybeException {
+    public T get() throws MaybeIsEmptyException {
         if (element != null) {
             return element;
         } else {
-            throw new MaybeException("No element stored");
+            throw new MaybeIsEmptyException("No element stored");
         }
     }
 
@@ -48,8 +51,8 @@ public class Maybe<T> {
      * @param <T> type of value to be stored
      * @return the object that was just created
      */
-    public static <T> Maybe<T> just(T t) {
-        return new Maybe<>(t);
+    public static <T> Maybe <T> just(@NotNull T t) {
+        return new Maybe<T>(t);
     }
 
     /**
@@ -67,13 +70,13 @@ public class Maybe<T> {
      *
      * @param mapper a function to be mapped with type from T to U
      * @param <U>    new type of mapped value
-     * @return new object with mapped value or object with null stored  
+     * @return new object with mapped value or object with null stored
      */
-    public <U> Maybe<U> map(Function<T, U> mapper) {
+    public <U> Maybe<U> map(@NotNull Function<T, U> mapper) {
         if (element != null) {
-            return new Maybe<U>(mapper.apply(element));
+            return Maybe.just(mapper.apply(element));
         } else {
-            return new Maybe<U>();
+            return Maybe.nothing();
         }
     }
 

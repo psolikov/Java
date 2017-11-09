@@ -2,7 +2,7 @@ package ru.spbau.solikov.maybe.test;
 
 import org.junit.Test;
 import ru.spbau.solikov.maybe.src.Maybe;
-import ru.spbau.solikov.maybe.src.MaybeException;
+import ru.spbau.solikov.maybe.src.MaybeIsEmptyException;
 
 import javax.swing.text.rtf.RTFEditorKit;
 
@@ -22,7 +22,7 @@ public class MaybeTest {
 
     @Test
     public void testConstructor() {
-        Maybe<Integer> maybe = new Maybe<>(1);
+        Maybe<Integer> maybe = Maybe.just(1);
         assertEquals(true, maybe.isPresent());
     }
 
@@ -38,8 +38,8 @@ public class MaybeTest {
         assertEquals(false, maybe.isPresent());
     }
 
-    @Test(expected = MaybeException.class)
-    public void testGetOnEmpty() throws MaybeException {
+    @Test(expected = MaybeIsEmptyException.class)
+    public void testGetOnEmpty() throws MaybeIsEmptyException {
         Maybe<Integer> maybe = Maybe.nothing();
         maybe.get();
     }
@@ -49,7 +49,7 @@ public class MaybeTest {
         Maybe<Integer> maybe = Maybe.just(564);
         try {
             assertEquals(new Integer(564), maybe.get());
-        } catch (MaybeException e) {
+        } catch (MaybeIsEmptyException e) {
             fail(e.getMessage());
         }
     }
@@ -59,7 +59,7 @@ public class MaybeTest {
         Maybe<String> maybe = Maybe.just("May be");
         try {
             assertEquals("May be", maybe.get());
-        } catch (MaybeException e) {
+        } catch (MaybeIsEmptyException e) {
             fail(e.getMessage());
         }
     }
@@ -85,7 +85,7 @@ public class MaybeTest {
     public void testMapOnNonEmpty() {
         try {
             assertEquals(new Integer(565), Maybe.just(1).map(x -> x + 564).get());
-        } catch (MaybeException e) {
+        } catch (MaybeIsEmptyException e) {
             fail(e.getMessage());
         }
     }
@@ -108,7 +108,7 @@ public class MaybeTest {
                     int n = Integer.parseInt(number);
                     maybe = Maybe.just(n);
                 } catch (NumberFormatException e) {
-                    maybe = new Maybe<>();
+                    maybe = Maybe.nothing();
                 }
 
                 al.add(maybe.map(x -> x * x));
@@ -130,7 +130,7 @@ public class MaybeTest {
             w.flush();
             w.close();
 
-        } catch (IOException | MaybeException e) {
+        } catch (IOException | MaybeIsEmptyException e) {
             fail(e.getMessage());
         }
     }
