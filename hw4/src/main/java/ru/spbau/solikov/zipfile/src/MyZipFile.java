@@ -1,5 +1,7 @@
 package ru.spbau.solikov.zipfile.src;
 
+import org.jetbrains.annotations.*;
+
 import java.io.*;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+
 
 /**
  * Class for extracting all files matching the regex from all zip-archives at directory
@@ -30,7 +33,7 @@ public class MyZipFile {
      * @return array of all files from directory
      * @throws IllegalArgumentException exception that can occur from mismatched parameter
      */
-    private static File[] filesInDirectory(File root) throws IllegalArgumentException {
+    private static File[] filesInDirectory(@NotNull File root) throws IllegalArgumentException {
         if (!root.isDirectory()) {
             throw new IllegalArgumentException(root + " is not a directory.");
         }
@@ -43,7 +46,7 @@ public class MyZipFile {
      * @param file file to be checked
      * @return true if exists, false - otherwise
      */
-    private static boolean isFileInDirectory(File file) {
+    private static boolean isFileInDirectory(@NotNull File file) {
         return file.exists();
     }
 
@@ -52,9 +55,9 @@ public class MyZipFile {
      * Checks every file in directory for being zip-archive and in that case unzips
      * Uses writing from input stream to output stream
      *
-     * @throws RuntimeException appears if zip-archive contains more than one file with the same name
+     * @throws ZipFileException appears if zip-archive contains more than one file with the same name
      */
-    public void unzip() throws RuntimeException {
+    public void unzip() throws ZipFileException {
         File[] files = filesInDirectory(new File(directory));
         for (File file : files) {
             if (file.exists() && file.canRead() && !file.isDirectory()) {
@@ -70,7 +73,7 @@ public class MyZipFile {
                                     directory.mkdirs();
                                 } else {
                                     if (isFileInDirectory(new File(file.getParent(), zipEntry.getName()))) {
-                                        throw new RuntimeException("There is more than 1 file with name \"" + zipEntry.getName() + "\" in the archive");
+                                        throw new ZipFileException("There is more than 1 file with name \"" + zipEntry.getName() + "\" in the archive");
                                     } else {
                                         writeToStream(zipFile.getInputStream(zipEntry), new File(file.getParent(), zipEntry.getName()));
                                     }
@@ -98,7 +101,7 @@ public class MyZipFile {
      * @param file        file to be written
      * @throws IOException could occur while working with streams
      */
-    private void writeToStream(InputStream inputStream, File file) throws IOException {
+    private void writeToStream(@NotNull InputStream inputStream, @NotNull File file) throws IOException {
         byte[] buffer = new byte[inputStream.available()];
         inputStream.read(buffer);
         FileOutputStream fos = new FileOutputStream(file);

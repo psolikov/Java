@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import ru.spbau.solikov.zipfile.src.MyZipFile;
+import ru.spbau.solikov.zipfile.src.ZipFileException;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -26,27 +27,27 @@ public class MyZipFileTest {
     }
 
     @Test
-    public void testUnzipEmptyDirectory() {
+    public void testUnzipEmptyDirectory() throws ZipFileException {
         MyZipFile myZipFile = new MyZipFile(path + "/Example/NotZipped", "/.*");
         myZipFile.unzip();
         assertEquals(2, nonZipFolder.listFiles().length);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testUnzipThrowsExceptionIf2SameFiles() {
+    @Test(expected = ZipFileException.class)
+    public void testUnzipThrowsExceptionIf2SameFiles() throws ZipFileException {
         MyZipFile myZipFile = new MyZipFile(path + "/Example/TwoOneFiles", "1.example");
         myZipFile.unzip();
     }
 
     @Test
-    public void testUnzipOneFileExtractsOneFile() {
+    public void testUnzipOneFileExtractsOneFile() throws ZipFileException {
         MyZipFile myZipFile = new MyZipFile(path + "/Example/OneFile", ".*");
         myZipFile.unzip();
         assertEquals(2, new File(folder.getAbsolutePath() + "/OneFile").listFiles().length);
     }
 
     @Test
-    public void testUnzipTwoFilesExtractsTwoFiles() {
+    public void testUnzipTwoFilesExtractsTwoFiles() throws ZipFileException {
         MyZipFile myZipFile = new MyZipFile(path + "/Example/TwoFiles", ".*");
         myZipFile.unzip();
         assertEquals(3, new File(folder.getAbsolutePath() + "/TwoFiles").listFiles().length);
@@ -57,6 +58,7 @@ public class MyZipFileTest {
         File[] files1 = new File(folder.getAbsolutePath() + "/OneFile").listFiles();
         File[] files2 = new File(folder.getAbsolutePath() + "/TwoFiles").listFiles();
         File[] files3 = new File(folder.getAbsolutePath() + "/TwoOneFiles").listFiles();
+
         if (files1 != null) {
             for (File f : files1) {
                 Matcher matcher = pattern.matcher(f.getName());
@@ -65,6 +67,7 @@ public class MyZipFileTest {
                 }
             }
         }
+
         if (files2 != null) {
             for (File f : files2) {
                 Matcher matcher = pattern.matcher(f.getName());
@@ -73,6 +76,7 @@ public class MyZipFileTest {
                 }
             }
         }
+
         if (files3 != null) {
             for (File f : files3) {
                 Matcher matcher = pattern.matcher(f.getName());
