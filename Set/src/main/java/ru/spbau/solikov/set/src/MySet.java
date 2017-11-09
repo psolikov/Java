@@ -1,5 +1,8 @@
 package ru.spbau.solikov.set.src;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Implementation of set structure with binary search tree.
  * Allows to store elements of any type T that could be compared by 'compareTo'.
@@ -15,7 +18,7 @@ public class MySet<T extends Comparable<T>> {
      *
      * @param value element to be added
      */
-    public void add(T value) {
+    public void add(@NotNull T value) {
         tree.add(value);
     }
 
@@ -35,13 +38,14 @@ public class MySet<T extends Comparable<T>> {
      * @param value to be checked
      * @return true if it contains the element, false otherwise
      */
-    public boolean contains(T value) {
+    public boolean contains(@NotNull T value) {
         return tree.contains(value, tree.root);
     }
 
     /**
      * Structure for collecting unique elements of type T.
-     * Has methods for inserting elements, for checking if there is the element and for taking the size of tree.
+     * Has methods for inserting elements, for checking if there is the element
+     * and for taking the size of tree.
      * Tree is based on nested class Node.
      *
      * @param <T> type of elements to be added.
@@ -49,19 +53,22 @@ public class MySet<T extends Comparable<T>> {
     private static class Tree<T extends Comparable<T>> {
 
         /**
-         * Implementation of tree's branch that stores the value of type T and has links to left and right nodes.
+         * Implementation of tree's branch that stores the value of type T
+         * and has links to left and right nodes.
          *
          * @param <T>
          */
         private static class Node<T extends Comparable<T>> {
 
             private T value = null;
-            private Node<T> left = null, right = null;
+            private Node<T> left = null;
+            private Node<T> right = null;
 
-            Node(T value) {
+            Node(@NotNull T value) {
                 this.value = value;
             }
 
+            @Nullable
             T getValue() {
                 return value;
             }
@@ -76,7 +83,7 @@ public class MySet<T extends Comparable<T>> {
          *
          * @param value value to be inserted
          */
-        void add(T value) {
+        void add(@NotNull T value) {
             root = add(value, root);
         }
 
@@ -87,21 +94,23 @@ public class MySet<T extends Comparable<T>> {
          * @param node  current position in the tree
          * @return true if it contains, false otherwise
          */
-        boolean contains(T value, Node<T> node) {
-            return node != null && ((node.value.compareTo(value) == 0) || (contains(value, node.left)) || (contains(value, node.right)));
+        boolean contains(@NotNull T value, Node<T> node) {
+            return node != null && ((node.value.compareTo(value) == 0)
+                    || (contains(value, node.left))
+                    || (contains(value, node.right)));
         }
 
         /**
-         * Recursive function that goes down the tree and adds the element to the correct position.
+         * Recursive function that goes down the tree and adds
+         * the element to the correct position.
          *
          * @param value value to be added in the tree
          * @param node  current node
          * @return new node that replaces the previous one
          */
-        private Node<T> add(T value, Node<T> node) {
+        private Node<T> add(@NotNull T value, Node<T> node) {
             if (node == null) {
-                //noinspection unchecked
-                node = new Node(value);
+                node = new Node<>(value);
                 size++;
             } else {
                 if (node.getValue() == null) {
