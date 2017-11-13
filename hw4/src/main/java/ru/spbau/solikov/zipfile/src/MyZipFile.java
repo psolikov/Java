@@ -62,12 +62,16 @@ public class MyZipFile {
         for (File file : files) {
             if (file.exists() && file.canRead() && !file.isDirectory()) {
                 try (ZipFile zipFile = new ZipFile(file.getAbsolutePath())) {
-                    if (zipFile.size() != 0) {
+                    if (zipFile.size() == 0) {
+                        continue;
+                    } else {
                         Enumeration entries = zipFile.entries();
                         while (entries.hasMoreElements()) {
                             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
                             Matcher matcher = pattern.matcher(zipEntry.getName());
-                            if (matcher.matches()) {
+                            if (!matcher.matches()) {
+                                continue;
+                            } else {
                                 if (zipEntry.isDirectory()) {
                                     File directory = new File(file.getParent(), zipEntry.getName());
                                     directory.mkdirs();
