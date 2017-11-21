@@ -2,10 +2,14 @@ package ru.spbau.solikov.functional.java.src;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * A class that provides the ability of working with collections and functional interfaces.
+ */
 public class Collections {
     /**
      * Takes iterable, maps every element of it with function and puts into ArrayList.
@@ -16,12 +20,12 @@ public class Collections {
      * @param <B> type of output ArrayList
      * @return mapped ArrayList
      */
-    public static <A, B> ArrayList<B> map(@NotNull Iterable<A> a,
-                                          @NotNull Function1<? super A, ? extends B> f) {
+    public static <A, B> AbstractList<B> map(@NotNull Iterable<A> a,
+                                             @NotNull Function1<? super A, ? extends B> f) {
         ArrayList<B> result = new ArrayList<>();
 
-        for (A anA : a) {
-            result.add(f.apply(anA));
+        for (A element : a) {
+            result.add(f.apply(element));
         }
 
         return result;
@@ -38,9 +42,9 @@ public class Collections {
     public static <A> ArrayList<A> filter(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
         ArrayList<A> result = new ArrayList<>();
 
-        for (A anA : a) {
-            if (p.apply(anA)) {
-                result.add(anA);
+        for (A element : a) {
+            if (p.apply(element)) {
+                result.add(element);
             }
         }
 
@@ -58,9 +62,9 @@ public class Collections {
     public static <A> ArrayList<A> takeWhile(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
         ArrayList<A> result = new ArrayList<>();
 
-        for (A anA : a) {
-            if (!p.apply(anA)) {
-                result.add(anA);
+        for (A element : a) {
+            if (!p.apply(element)) {
+                result.add(element);
             } else {
                 break;
             }
@@ -78,17 +82,7 @@ public class Collections {
      * @return filtered ArrayList
      */
     public static <A> ArrayList<A> takeUnless(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
-        ArrayList<A> result = new ArrayList<>();
-
-        for (A anA : a) {
-            if (p.apply(anA)) {
-                result.add(anA);
-            } else {
-                break;
-            }
-        }
-
-        return result;
+        return takeWhile(a, p.not());
     }
 
     /**
@@ -106,8 +100,8 @@ public class Collections {
                                  @NotNull Function2<? super X, ? super Y, ? extends Y> f) {
         Y result = y;
 
-        for (X anA : collection) {
-            result = f.apply(anA, result);
+        for (X element : collection) {
+            result = f.apply(element, result);
         }
 
         return result;

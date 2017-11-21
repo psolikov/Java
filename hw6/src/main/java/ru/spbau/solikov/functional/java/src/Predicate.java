@@ -9,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
  * @param <X> type of a argument, i.e. the domain of a function
  */
 @FunctionalInterface
-public interface Predicate<X> extends Function1<X, Boolean>{
+public interface Predicate<X> extends Function1<X, Boolean> {
     /**
      * The negation of instance predicate.
      *
      * @return new predicate with reversed output
      */
-    default Predicate<X> not(){
+    default Predicate<X> not() {
         return (X x) -> !apply(x);
     }
 
@@ -25,7 +25,7 @@ public interface Predicate<X> extends Function1<X, Boolean>{
      * @param other predicate to conjunct with
      * @return new predicate that represents the conjunction
      */
-    default Predicate<X> and(@NotNull Predicate<? super X> other){
+    default Predicate<X> and(@NotNull Predicate<? super X> other) {
         return (X x) -> apply(x) && other.apply(x);
     }
 
@@ -35,7 +35,7 @@ public interface Predicate<X> extends Function1<X, Boolean>{
      * @param other predicate to make disjunction with
      * @return new predicate that represents the disjunction
      */
-    default Predicate<X> or(@NotNull Predicate<? super X> other){
+    default Predicate<X> or(@NotNull Predicate<? super X> other) {
         return (X x) -> apply(x) || other.apply(x);
     }
 
@@ -44,7 +44,7 @@ public interface Predicate<X> extends Function1<X, Boolean>{
      *
      * @return true
      */
-    static Predicate<Object> ALWAYS_TRUE(){
+    static <T> Predicate<T> ALWAYS_TRUE() {
         return (x) -> true;
     }
 
@@ -53,7 +53,7 @@ public interface Predicate<X> extends Function1<X, Boolean>{
      *
      * @return false
      */
-    static Predicate<Object> ALWAYS_FALSE(){
+    static <T> Predicate<T> ALWAYS_FALSE() {
         return (x) -> false;
     }
 }

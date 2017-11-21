@@ -58,6 +58,6 @@ public interface Function2<X, Y, Z> {
      * @return single valued function with inserted value
      */
     default Function1<X, Z> curry(Y y){
-        return (X x) -> apply(x, y);
-    }
+        return bind2(y);
+    }   
 }
