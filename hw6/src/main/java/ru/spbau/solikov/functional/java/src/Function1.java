@@ -16,7 +16,7 @@ public interface Function1<X, Y> {
      * @param x variable to be applied
      * @return output of a function
      */
-    Y apply(X x);
+    Y apply(final X x);
 
     /**
      * Composition of the instance and a given function in the natural order.
@@ -25,7 +25,7 @@ public interface Function1<X, Y> {
      * @param <Z> range of the composition
      * @return new function from <X> to <Z> that represents composition
      */
-    default <Z> Function1<X, Z> compose(@NotNull Function1<? super Y, ? extends Z> g) {
-        return (X x) -> g.apply(apply(x));
+    default <Z> Function1<X, Z> compose(@NotNull final Function1<? super Y, ? extends Z> g) {
+        return (final X x) -> g.apply(apply(x));
     }
 }

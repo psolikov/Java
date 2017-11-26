@@ -18,7 +18,7 @@ public interface Function2<X, Y, Z> {
      * @param y variable of the second type to be applied
      * @return output of a function
      */
-    Z apply(X x, Y y);
+    Z apply(final X x, final Y y);
 
     /**
      * Composition of the instance and a given single argument function in the natural order.
@@ -27,8 +27,8 @@ public interface Function2<X, Y, Z> {
      * @param <D> range of the composition
      * @return new function from cartesian product of <X> and <Y> to <D> that represents composition
      */
-    default <D> Function2<X, Y, D> compose(@NotNull Function1<? super Z, ? extends D> g) {
-        return (X x, Y y) -> g.apply(apply(x, y));
+    default <D> Function2<X, Y, D> compose(@NotNull final Function1<? super Z, ? extends D> g) {
+        return (final X x, final Y y) -> g.apply(apply(x, y));
     }
 
     /**
@@ -37,8 +37,8 @@ public interface Function2<X, Y, Z> {
      * @param x value to insert into the first argument
      * @return single valued function with inserted value
      */
-    default Function1<Y, Z> bind1(X x){
-        return (Y y) -> apply(x, y);
+    default Function1<Y, Z> bind1(final X x) {
+        return (final Y y) -> apply(x, y);
     }
 
     /**
@@ -47,8 +47,8 @@ public interface Function2<X, Y, Z> {
      * @param y value to insert into the second argument
      * @return single valued function with inserted value
      */
-    default Function1<X, Z> bind2(Y y){
-        return (X x) -> apply(x, y);
+    default Function1<X, Z> bind2(final Y y) {
+        return (final X x) -> apply(x, y);
     }
 
     /**
@@ -57,7 +57,7 @@ public interface Function2<X, Y, Z> {
      * @param y value to insert into the second argument
      * @return single valued function with inserted value
      */
-    default Function1<X, Z> curry(Y y){
+    default Function1<X, Z> curry(final Y y) {
         return bind2(y);
-    }   
+    }
 }

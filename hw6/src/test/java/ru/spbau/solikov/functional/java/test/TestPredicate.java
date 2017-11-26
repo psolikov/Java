@@ -49,13 +49,13 @@ public class TestPredicate {
 
     @Test
     public void testAlwaysTrue(){
-        Predicate<Object> predicate = Predicate.ALWAYS_TRUE();
+        Predicate<ForkJoinPool> predicate = Predicate.ALWAYS_TRUE();
         assertEquals(true,predicate.apply(new ForkJoinPool()));
     }
 
     @Test
     public void testAlwaysFalse(){
-        Predicate<Object> predicate = Predicate.ALWAYS_FALSE();
+        Predicate<LambdaMetafactory> predicate = Predicate.ALWAYS_FALSE();
         assertEquals(false,predicate.apply(new LambdaMetafactory()));
     }
 }

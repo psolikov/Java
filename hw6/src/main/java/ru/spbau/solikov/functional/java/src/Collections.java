@@ -20,8 +20,8 @@ public class Collections {
      * @param <B> type of output ArrayList
      * @return mapped ArrayList
      */
-    public static <A, B> AbstractList<B> map(@NotNull Iterable<A> a,
-                                             @NotNull Function1<? super A, ? extends B> f) {
+    public static <A, B> AbstractList<B> map(@NotNull final Iterable<A> a,
+                                             @NotNull final Function1<? super A, ? extends B> f) {
         ArrayList<B> result = new ArrayList<>();
 
         for (A element : a) {
@@ -39,7 +39,8 @@ public class Collections {
      * @param <A> type of values in a and ArrayList
      * @return filtered ArrayList
      */
-    public static <A> ArrayList<A> filter(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
+    public static <A> ArrayList<A> filter(@NotNull final Iterable<A> a,
+                                          @NotNull final Predicate<A> p) {
         ArrayList<A> result = new ArrayList<>();
 
         for (A element : a) {
@@ -59,7 +60,8 @@ public class Collections {
      * @param <A> type of values in a and ArrayList
      * @return filtered ArrayList
      */
-    public static <A> ArrayList<A> takeWhile(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
+    public static <A> ArrayList<A> takeWhile(@NotNull final Iterable<A> a,
+                                             @NotNull final Predicate<A> p) {
         ArrayList<A> result = new ArrayList<>();
 
         for (A element : a) {
@@ -81,7 +83,8 @@ public class Collections {
      * @param <A> type of values in a and ArrayList
      * @return filtered ArrayList
      */
-    public static <A> ArrayList<A> takeUnless(@NotNull Iterable<A> a, @NotNull Predicate<A> p) {
+    public static <A> ArrayList<A> takeUnless(@NotNull final Iterable<A> a,
+                                              @NotNull final Predicate<A> p) {
         return takeWhile(a, p.not());
     }
 
@@ -96,8 +99,8 @@ public class Collections {
      * @param <Y>        type of output and initial value
      * @return result of folding
      */
-    public static <X, Y> Y foldl(@NotNull Collection<X> collection, Y y,
-                                 @NotNull Function2<? super X, ? super Y, ? extends Y> f) {
+    public static <X, Y> Y foldl(@NotNull final Collection<X> collection, final Y y,
+                                 @NotNull final Function2<? super X, ? super Y, ? extends Y> f) {
         Y result = y;
 
         for (X element : collection) {
@@ -119,8 +122,8 @@ public class Collections {
      * @param <Y>        type of output and initial value
      * @return result of folding
      */
-    public static <X, Y> Y foldr(@NotNull Collection<X> collection, Y y,
-                                 @NotNull Function2<? super X, ? super Y, ? extends Y> f) {
+    public static <X, Y> Y foldr(@NotNull final Collection<X> collection, final Y y,
+                                 @NotNull final Function2<? super X, ? super Y, ? extends Y> f) {
         return foldrRec(collection.iterator(), y, f);
     }
 
@@ -134,8 +137,8 @@ public class Collections {
      * @param <Y>      type of output and initial value
      * @return result of folding
      */
-    private static <X, Y> Y foldrRec(@NotNull Iterator<X> iterator, Y y,
-                                     @NotNull Function2<? super X, ? super Y, ? extends Y> f) {
+    private static <X, Y> Y foldrRec(@NotNull final Iterator<X> iterator, final Y y,
+                                     @NotNull final Function2<? super X, ? super Y, ? extends Y> f) {
         if (iterator.hasNext()) {
             return f.apply(iterator.next(), foldrRec(iterator, y, f));
         } else {

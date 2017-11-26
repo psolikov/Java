@@ -16,7 +16,7 @@ public interface Predicate<X> extends Function1<X, Boolean> {
      * @return new predicate with reversed output
      */
     default Predicate<X> not() {
-        return (X x) -> !apply(x);
+        return (final X x) -> !apply(x);
     }
 
     /**
@@ -25,8 +25,8 @@ public interface Predicate<X> extends Function1<X, Boolean> {
      * @param other predicate to conjunct with
      * @return new predicate that represents the conjunction
      */
-    default Predicate<X> and(@NotNull Predicate<? super X> other) {
-        return (X x) -> apply(x) && other.apply(x);
+    default Predicate<X> and(@NotNull final Predicate<? super X> other) {
+        return (final X x) -> apply(x) && other.apply(x);
     }
 
     /**
@@ -35,8 +35,8 @@ public interface Predicate<X> extends Function1<X, Boolean> {
      * @param other predicate to make disjunction with
      * @return new predicate that represents the disjunction
      */
-    default Predicate<X> or(@NotNull Predicate<? super X> other) {
-        return (X x) -> apply(x) || other.apply(x);
+    default Predicate<X> or(@NotNull final Predicate<? super X> other) {
+        return (final X x) -> apply(x) || other.apply(x);
     }
 
     /**
@@ -45,7 +45,7 @@ public interface Predicate<X> extends Function1<X, Boolean> {
      * @return true
      */
     static <T> Predicate<T> ALWAYS_TRUE() {
-        return (x) -> true;
+        return (final T x) -> true;
     }
 
     /**
@@ -54,6 +54,6 @@ public interface Predicate<X> extends Function1<X, Boolean> {
      * @return false
      */
     static <T> Predicate<T> ALWAYS_FALSE() {
-        return (x) -> false;
+        return (final T x) -> false;
     }
 }
