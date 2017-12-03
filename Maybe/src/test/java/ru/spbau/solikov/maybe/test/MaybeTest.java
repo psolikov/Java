@@ -91,47 +91,42 @@ public class MaybeTest {
     }
 
     @Test
-    public void testReadFromInputFileAndWriteToOutputFile() {
-        try {
+    public void testReadFromInputFileAndWriteToOutputFile()
+            throws IOException, MaybeIsEmptyException {
+        Scanner sc = new Scanner(new File("Maybe.in"));
+        FileWriter fw = new FileWriter("Maybe.out");
+        BufferedWriter w = new BufferedWriter(fw);
+        ArrayList<Maybe<Integer>> al = new ArrayList<>();
 
-            Scanner sc = new Scanner(new File("Maybe.in"));
-            FileWriter fw = new FileWriter("Maybe.out");
-            BufferedWriter w = new BufferedWriter(fw);
-            ArrayList<Maybe<Integer>> al = new ArrayList<>();
+        while (sc.hasNextLine()) {
 
-            while (sc.hasNextLine()) {
+            String number = sc.nextLine();
+            Maybe<Integer> maybe;
 
-                String number = sc.nextLine();
-                Maybe<Integer> maybe;
-
-                try {
-                    int n = Integer.parseInt(number);
-                    maybe = Maybe.just(n);
-                } catch (NumberFormatException e) {
-                    maybe = Maybe.nothing();
-                }
-
-                al.add(maybe.map(x -> x * x));
-
+            try {
+                int n = Integer.parseInt(number);
+                maybe = Maybe.just(n);
+            } catch (NumberFormatException e) {
+                maybe = Maybe.nothing();
             }
 
-            for (Maybe<Integer> mb : al) {
+            al.add(maybe.map(x -> x * x));
 
-                if (mb.isPresent()) {
-                    w.write(String.valueOf(mb.get()));
-                    w.write("\n");
-                } else {
-                    w.write("null\n");
-                }
-
-            }
-
-            sc.close();
-            w.flush();
-            w.close();
-
-        } catch (IOException | MaybeIsEmptyException e) {
-            fail(e.getMessage());
         }
+
+        for (Maybe<Integer> mb : al) {
+
+            if (mb.isPresent()) {
+                w.write(String.valueOf(mb.get()));
+                w.write("\n");
+            } else {
+                w.write("null\n");
+            }
+
+        }
+
+        sc.close();
+        w.flush();
+        w.close();
     }
 }

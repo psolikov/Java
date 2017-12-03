@@ -30,9 +30,8 @@ public class Maybe<T> {
     public T get() throws MaybeIsEmptyException {
         if (element != null) {
             return element;
-        } else {
-            throw new MaybeIsEmptyException("No element stored");
         }
+        throw new MaybeIsEmptyException("No element stored");
     }
 
     /**
@@ -51,7 +50,7 @@ public class Maybe<T> {
      * @param <T> type of value to be stored
      * @return the object that was just created
      */
-    public static <T> Maybe <T> just(@NotNull T t) {
+    public static <T> Maybe<T> just(@NotNull T t) {
         return new Maybe<T>(t);
     }
 
@@ -75,9 +74,8 @@ public class Maybe<T> {
     public <U> Maybe<U> map(@NotNull Function<T, U> mapper) {
         if (element != null) {
             return Maybe.just(mapper.apply(element));
-        } else {
-            return Maybe.nothing();
         }
+        return Maybe.nothing();
     }
 
 }
