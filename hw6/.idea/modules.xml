@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalJava.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalJava_main.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalJava_main.iml" group="FunctionalJava" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunctionalJava_test.iml" filepath="$PROJECT_DIR$/.idea/modules/FunctionalJava_test.iml" group="FunctionalJava" />
+    </modules>
+  </component>
+</project>
