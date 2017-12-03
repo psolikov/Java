@@ -64,26 +64,25 @@ public class MyZipFile {
                 try (ZipFile zipFile = new ZipFile(file.getAbsolutePath())) {
                     if (zipFile.size() == 0) {
                         continue;
-                    } else {
-                        Enumeration entries = zipFile.entries();
-                        while (entries.hasMoreElements()) {
-                            ZipEntry zipEntry = (ZipEntry) entries.nextElement();
-                            Matcher matcher = pattern.matcher(zipEntry.getName());
-                            if (!matcher.matches()) {
-                                continue;
-                            } else {
-                                if (zipEntry.isDirectory()) {
-                                    File directory = new File(file.getParent(), zipEntry.getName());
-                                    directory.mkdirs();
-                                } else {
-                                    if (isFileInDirectory(new File(file.getParent(), zipEntry.getName()))) {
-                                        throw new ZipFileException("There is more than 1 file with name \"" + zipEntry.getName() + "\" in the archive");
-                                    } else {
-                                        writeToStream(zipFile.getInputStream(zipEntry), new File(file.getParent(), zipEntry.getName()));
-                                    }
-                                }
-                            }
+                    }
+                    Enumeration entries = zipFile.entries();
+                    while (entries.hasMoreElements()) {
+                        ZipEntry zipEntry = (ZipEntry) entries.nextElement();
+                        Matcher matcher = pattern.matcher(zipEntry.getName());
+                        if (!matcher.matches()) {
+                            continue;
                         }
+                        if (zipEntry.isDirectory()) {
+                            File directory = new File(file.getParent(), zipEntry.getName());
+                            directory.mkdirs();
+                            continue;
+                        }
+                        if (isFileInDirectory(new File(file.getParent(), zipEntry.getName()))) {
+                            throw new ZipFileException("There is more than 1 file with name \""
+                                    + zipEntry.getName() + "\" in the archive");
+                        }
+                        writeToStream(zipFile.getInputStream(zipEntry),
+                                new File(file.getParent(), zipEntry.getName()));
                     }
                 } catch (ZipException ignored) {
                     /*
