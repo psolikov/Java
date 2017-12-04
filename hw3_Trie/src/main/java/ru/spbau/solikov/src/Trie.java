@@ -52,7 +52,18 @@ public class Trie implements Serializable {
      * @return true if element already in trie, false otherwise
      */
     public boolean add(String element) {
+        int indexLastElement = addString(element);
 
+        if (indexLastElement == -1) {
+            return false;
+        }
+
+        changeSize(indexLastElement, element);
+
+        return true;
+    }
+
+    private int addString(String element) {
         TrieNode current = root;
         int index = -1;
         int indexLastElement = 0;
@@ -63,29 +74,30 @@ public class Trie implements Serializable {
             index = alphabet.get(Character.toString(c));
             if (current.nodes[index] != null) {
                 current = current.nodes[index];
-            } else {
-                current.nodes[index] = new TrieNode();
-                current = current.nodes[index];
+                continue;
             }
+            current.nodes[index] = new TrieNode();
+            current = current.nodes[index];
         }
 
         if (current.isTerminal) {
-            return false;
+            return -1;
         }
 
         current.isTerminal = true;
-
-
         current.size++;
-        current = root;
+
+        return indexLastElement;
+    }
+
+    private void changeSize(int indexLastElement, String element) {
+        TrieNode current = root;
         for (int i = 0; i <= indexLastElement; i++) {
             char c = element.charAt(i);
             int indexCurrent = alphabet.get(Character.toString(c));
             current.size++;
             current = current.nodes[indexCurrent];
         }
-        return true;
-
     }
 
     /**
@@ -137,32 +149,37 @@ public class Trie implements Serializable {
 
             if (current.nodes[index] != null) {
                 current = current.nodes[index];
-            } else {
-                return false;
+                continue;
+            }
+
+            return false;
+        }
+
+        return current.isTerminal && recursiveRemove(current, element,
+                indexLastElement, lastElement);
+
+    }
+
+    private boolean recursiveRemove(TrieNode current, String element,
+                                    int indexLastElement, TrieNode lastElement) {
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            if (current.nodes[i] != null) {
+                current.isTerminal = false;
+                current = root;
+                advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
+                return true;
             }
         }
 
-        if (current.isTerminal) {
-            for (int i = 0; i < ALPHABET_SIZE; i++) {
-                if (current.nodes[i] != null) {
-                    current.isTerminal = false;
-                    current = root;
-                    advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
-                    return true;
-                }
-            }
+        removePath(lastElement, element.substring(indexLastElement));
 
-            removePath(lastElement, element.substring(indexLastElement));
-
-            current = root;
-            advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
-            return true;
-        }
-        return false;
+        current = root;
+        advanceOnGivenSizeAndReduceSize(element, indexLastElement, current);
+        return true;
     }
 
     private void advanceOnGivenSizeAndReduceSize(String element,
-                                                     int indexLastElement, TrieNode current) {
+                                                 int indexLastElement, TrieNode current) {
         for (int j = 0; j <= indexLastElement; j++) {
             char c = element.charAt(j);
             int indexCurrent = alphabet.get(Character.toString(c));

@@ -163,40 +163,6 @@ public class Main {
     }
 
     @Test
-    public void testSerializeEmpty() throws IOException {
-        FileOutputStream fos = new FileOutputStream("test.trie");
-        trie.serialize(fos);
-    }
-
-    @Test
-    public void testDeserializeEmpty() throws IOException, ClassNotFoundException {
-        FileOutputStream fos = new FileOutputStream("test.trie");
-        FileInputStream fis = new FileInputStream("test.trie");
-        trie.serialize(fos);
-        trie.deserialize(fis);
-    }
-
-    @Test
-    public void testSerializeLotsElements() throws IOException {
-        FileOutputStream fos = new FileOutputStream("test.trie");
-        for (int i = 1; i < 11; i++) {
-            trie.add(String.valueOf((char) (i + 64)));
-        }
-        trie.serialize(fos);
-    }
-
-    @Test
-    public void testDeserializeLotsElements() throws IOException, ClassNotFoundException {
-        FileOutputStream fos = new FileOutputStream("test.trie");
-        FileInputStream fis = new FileInputStream("test.trie");
-        for (int i = 1; i < 11; i++) {
-            trie.add(String.valueOf((char) (i + 64)));
-        }
-        trie.serialize(fos);
-        trie.deserialize(fis);
-    }
-
-    @Test
     public void testSizeAfterDeserializeLotsElements() throws IOException, ClassNotFoundException {
         FileOutputStream fos = new FileOutputStream("test.trie");
         FileInputStream fis = new FileInputStream("test.trie");
@@ -219,7 +185,9 @@ public class Main {
         trie.serialize(fos);
         Trie other = new Trie();
         other.deserialize(fis);
-        assertEquals(true, other.contains("A"));
+        for (int i = 1; i < 11; i++) {
+            assertEquals(true, other.contains(String.valueOf((char) (i + 64))));
+        }
     }
 
     @After
